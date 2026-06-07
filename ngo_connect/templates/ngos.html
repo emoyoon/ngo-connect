@@ -319,54 +319,87 @@ td{
 
 <!-- ================= USER NGO PAGE ================= -->
 
-<section class="hero">
-    <div>
-        <h1>Partner NGOs</h1>
-        <p>Explore approved NGOs across India</p>
-    </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NGO Card</title>
 
-<div class="ngo-grid">
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  padding: 40px;
+}
 
-    {% for ngo in ngos %}
+/* CARD */
+.ngo-card {
+  display: flex;
+  width: 100%;
+  max-width: 750px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  margin: auto;
+}
 
-    <div class="card">
+/* LEFT CONTENT */
+.ngo-content {
+  flex: 1;
+  padding: 25px;
+}
 
-        <h3>{{ ngo.name }}</h3>
+.ngo-content h3 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #222;
+}
 
-        <p>
-            <strong>Contact Person:</strong>
-            {{ ngo.contact_person }}
-        </p>
+.ngo-content p {
+  color: #555;
+  line-height: 1.5;
+}
 
-        <p>
-            <strong>Email:</strong>
-            {{ ngo.contact_email }}
-        </p>
+/* RIGHT IMAGE SECTION */
+.ngo-image {
+  width: 40%;
+  position: relative;
+  background: url("https://images.unsplash.com/photo-1521791136064-7986c2920216")
+    center/cover no-repeat;
+}
 
-        <p>
-            {{ ngo.description }}
-        </p>
+/* GRADIENT BLEND OVERLAY */
+.ngo-image::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to left,
+    rgba(255,255,255,0) 30%,
+    rgba(255,255,255,1) 100%
+  );
+}
 
-        {% if ngo.achievements %}
-        <p>
-            <strong>Achievements:</strong>
-            {{ ngo.achievements }}
-        </p>
-        {% endif %}
+</style>
+</head>
 
-    </div>
+<body>
 
-    {% empty %}
+<div class="ngo-card">
+  <div class="ngo-content">
+    <h3>Helping Hands NGO</h3>
+    <p>
+      We focus on education, healthcare, and food distribution for underprivileged communities.
+      Join us in making a difference.
+    </p>
+  </div>
 
-    <div class="card">
-        <h3>No Approved NGOs Yet</h3>
-        <p>Check back later.</p>
-    </div>
-
-    {% endfor %}
-
+  <div class="ngo-image"></div>
 </div>
+
+</body>
+</html>
 
 <script>
 
