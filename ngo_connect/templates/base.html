@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NGO Connect</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            padding-top: 80px;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 14px 40px;
+            box-sizing: border-box;
+
+            z-index: 1000;
+
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(12px);
+
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        /* LOGO */
+        nav h2 {
+            margin: 0;
+            font-weight: 700;
+            color: #2d6a4f;
+            font-size: 24px;
+        }
+
+        /* RIGHT SIDE */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        /* LINKS */
+        nav a {
+            position: relative;
+            text-decoration: none !important;
+            color: #333;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: 0.3s;
+            z-index: 1;
+        }
+
+        nav a::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 999px;
+            background: rgba(45, 106, 79, 0.08);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        nav a:hover::before {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        nav a:hover {
+            color: #2d6a4f;
+        }
+
+        /* ACTIVE STATE */
+        nav a.active::before {
+            opacity: 1;
+            transform: scale(1);
+            background: rgba(45, 106, 79, 0.18);
+        }
+
+        nav a.active {
+            color: #1b4332;
+            font-weight: 600;
+        }
+
+        /* DROPDOWN */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            color: #2d6a4f;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 999px;
+            transition: 0.3s;
+        }
+
+        .dropbtn:hover {
+            background: rgba(45, 106, 79, 0.1);
+        }
+
+        .dropdown-content {
+            position: absolute;
+            right: 0;
+            top: 120%;
+
+            background: white;
+            min-width: 160px;
+
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            border-radius: 12px;
+
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: 0.25s;
+
+            z-index: 1000;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 12px;
+            color: #333;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        .dropdown-content a:hover {
+            background: #f5f5f5;
+        }
+
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .username {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>NGO Connect 🌿</h2>
+
+    <div class="nav-links">
+
+        <!-- HOME -->
+        <a href="{% url 'home' %}"
+           class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">
+           Home
+        </a>
+
+        <!-- NGOS -->
+        <a href="{% url 'ngos' %}"
+           class="{% if request.resolver_match.url_name == 'ngos' %}active{% endif %}">
+           NGOs
+        </a>
+
+        <!-- EVENTS -->
+        <a href="{% url 'events' %}"
+           class="{% if request.resolver_match.url_name == 'events' %}active{% endif %}">
+           Events
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <!-- ACTIVITIES -->
+            <a href="{% url 'activities' %}"
+               class="{% if request.resolver_match.url_name == 'activities' %}active{% endif %}">
+               Activities
+            </a>
+
+            <!-- ADMIN DASHBOARD -->
+            {% if user.is_staff or user.is_superuser %}
+            <a href="{% url 'dashboard' %}"
+               class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+               Dashboard
+            </a>
+            {% endif %}
+
+            <!-- PROFILE DROPDOWN -->
+            <div class="dropdown">
+                <span class="dropbtn">
+                    Hi, <span class="username">{{ user.username }}</span> ▼
+                </span>
+
+                <div class="dropdown-content">
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                </div>
+            </div>
+
+        {% else %}
+
+            <!-- LOGIN -->
+            <a href="{% url 'login' %}"
+               class="{% if request.resolver_match.url_name == 'login' %}active{% endif %}">
+               Login
+            </a>
+
+        {% endif %}
+
+    </div>
+</nav>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

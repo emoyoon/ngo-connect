@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+body {
+    background: linear-gradient(135deg, #d8f3dc, #95d5b2, #52b788);
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    margin: 80px auto;
+    gap: 40px;
+}
+
+.left {
+    flex: 1;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left h1 {
+    font-size: 60px;
+    font-weight: 600;
+}
+
+.left p {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.right {
+    flex: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.card {
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.2);
+    padding: 30px;
+    width: 320px;
+    border-radius: 20px;
+}
+
+.card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: #1b4332;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.error {
+    color: #ffdddd;
+    text-align: center;
+}
+</style>
+
+<div class="container">
+
+    <div class="left">
+        <h1>NGO CONNECT</h1>
+        <p>Join hands. Create impact.</p>
+    </div>
+
+    <div class="right">
+
+        <!-- LOGIN -->
+        <div class="card">
+            <h2>Login</h2>
+
+            {% if error %}
+            <p class="error">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="login">
+
+                <div class="input-group">
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+        </div>
+
+        <!-- REGISTER -->
+        <div class="card">
+            <h2>Register</h2>
+
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="form_type" value="register">
+
+                <div class="input-group">
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="name" placeholder="Full Name" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="text" name="phone" placeholder="Phone Number" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="date" name="dob" required>
+                </div>
+
+                <div class="input-group">
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="btn">Register</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

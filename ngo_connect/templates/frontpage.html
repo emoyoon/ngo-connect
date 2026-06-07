@@ -1,0 +1,356 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+:root {
+    --green-main: #2d6a4f;
+    --green-deep: #1b4332;
+    --green-soft: #d8f3dc;
+    --blue-accent: #4ea8de;
+}
+
+/* HERO */
+.hero {
+    height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background: linear-gradient(135deg, #edfdf3, #e6f4ff);
+    color: var(--green-deep);
+
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: 0.35;
+}
+
+.hero::before {
+    background: #52b788;
+    top: -120px;
+    left: -120px;
+}
+
+.hero::after {
+    background: var(--blue-accent);
+    bottom: -120px;
+    right: -120px;
+}
+
+.hero h1 {
+    font-size: 52px;
+}
+
+.hero p {
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+/* BUTTON */
+.btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+
+    background: linear-gradient(135deg, var(--green-main), var(--blue-accent));
+    color: white;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: linear-gradient(135deg, var(--green-deep), var(--green-main));
+}
+
+/* CARDS */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 60px;
+}
+
+.card {
+    background: rgba(255,255,255,0.75);
+    backdrop-filter: blur(14px);
+    padding: 25px;
+    border-radius: 22px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+/* IMPACT */
+.impact {
+    text-align: center;
+    padding: 40px;
+}
+
+.impact h2 {
+    color: var(--green-main);
+}
+
+/* FLOAT BUTTON */
+.suggest-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+
+    background: linear-gradient(135deg, var(--green-main), var(--blue-accent));
+    color: white;
+
+    border: none;
+    padding: 14px 18px;
+    border-radius: 999px;
+
+    font-size: 14px;
+    cursor: pointer;
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    z-index: 999;
+}
+
+/* MODAL FIXED PROPERLY */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+
+    align-items: center;
+    justify-content: center;
+}
+
+/* ACTIVE STATE */
+.modal.show {
+    display: flex;
+}
+
+.modal-content {
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+
+    width: 420px;
+    max-width: 92%;
+
+    padding: 25px;
+    border-radius: 18px;
+
+    margin: 0;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* FORM */
+.label {
+    display: block;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1b4332;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* CUSTOM DROPDOWN */
+.custom-select {
+    position: relative;
+}
+
+#citySearch {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.options {
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
+
+    background: white;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+
+    z-index: 10;
+}
+
+.options div {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.options div:hover {
+    background: var(--green-soft);
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    margin-top: 30px;
+}
+</style>
+
+<!-- HERO -->
+<section class="hero">
+    <div>
+        <h1>Connect. Volunteer. Impact.</h1>
+        <p>Find NGOs, join causes, and make a real difference.</p>
+
+        <a href="{% url 'login' %}">
+            <button class="btn">Get Started</button>
+        </a>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="cards">
+    <div class="card">
+        <h3>Find NGOs</h3>
+        <p>Explore verified NGOs near you and across India.</p>
+    </div>
+
+    <div class="card">
+        <h3>Volunteer</h3>
+        <p>Join events, campaigns, and contribute your time.</p>
+    </div>
+
+    <div class="card">
+        <h3>Track Impact</h3>
+        <p>{{ message }}</p>
+    </div>
+</section>
+
+<!-- IMPACT -->
+<section class="impact">
+    <h2>🌍 Small Actions, Big Change</h2>
+    <p>Every volunteer hour counts. Start your journey today.</p>
+</section>
+
+<!-- FLOAT BUTTON -->
+<button class="suggest-btn" onclick="openModal()">💡 Suggest Idea</button>
+
+<!-- MODAL -->
+<div id="suggestModal" class="modal">
+    <div class="modal-content">
+        <h3>💡 Suggest a Volunteer Idea</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label class="label">Your Name</label>
+            <input type="text" name="name" required>
+
+            <label class="label">Contact Number</label>
+            <input type="tel" name="contact" required>
+
+            <label class="label">Select City</label>
+
+            <div class="custom-select">
+                <input type="text" id="citySearch" placeholder="Search city..." onclick="toggleDropdown()" readonly>
+
+                <div class="options" id="cityOptions">
+                    <div onclick="selectCity(this)">Mumbai</div>
+                    <div onclick="selectCity(this)">Delhi</div>
+                    <div onclick="selectCity(this)">Kolkata</div>
+                    <div onclick="selectCity(this)">Bangalore</div>
+                    <div onclick="selectCity(this)">Chennai</div>
+                    <div onclick="selectCity(this)">Hyderabad</div>
+                    <div onclick="selectCity(this)">Pune</div>
+                    <div onclick="selectCity(this)">Ahmedabad</div>
+                    <div onclick="selectCity(this)">Jaipur</div>
+                    <div onclick="selectCity(this)">Lucknow</div>
+                    <div onclick="selectCity(this)">Chandigarh</div>
+                    <div onclick="selectCity(this)">Bhopal</div>
+                    <div onclick="selectCity(this)">Patna</div>
+                    <div onclick="selectCity(this)">Indore</div>
+                    <div onclick="selectCity(this)">Nagpur</div>
+                </div>
+            </div>
+
+            <input type="hidden" name="city" id="selectedCity">
+
+            <label class="label">Idea Title</label>
+            <input type="text" name="title" required>
+
+            <label class="label">Details</label>
+            <textarea name="description" rows="4" required></textarea>
+
+            <button class="btn">Submit Suggestion</button>
+        </form>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 NGO Connect | Built with 💚</p>
+</footer>
+
+<script>
+function openModal() {
+    document.getElementById("suggestModal").classList.add("show");
+}
+
+window.onclick = function(event) {
+    let modal = document.getElementById("suggestModal");
+    if (event.target === modal) {
+        modal.classList.remove("show");
+    }
+}
+
+/* dropdown */
+function toggleDropdown() {
+    document.getElementById("cityOptions").style.display = "block";
+}
+
+function selectCity(el) {
+    document.getElementById("citySearch").value = el.innerText;
+    document.getElementById("selectedCity").value = el.innerText;
+    document.getElementById("cityOptions").style.display = "none";
+}
+
+/* filter */
+document.getElementById("citySearch").addEventListener("input", function() {
+    let filter = this.value.toLowerCase();
+    let options = document.querySelectorAll("#cityOptions div");
+
+    options.forEach(opt => {
+        opt.style.display = opt.innerText.toLowerCase().includes(filter) ? "block" : "none";
+    });
+});
+</script>
+
+{% endblock %}

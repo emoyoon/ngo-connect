@@ -1,0 +1,226 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+body {
+    background: #f4f7f5;
+}
+
+/* MAIN LAYOUT */
+.main-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 30px auto;
+    gap: 24px;
+    padding: 0 20px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    border-radius: 18px;
+
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(12px);
+
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    height: fit-content;
+}
+
+/* FILTER TITLE */
+.sidebar h4 {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #1b4332;
+}
+
+/* SELECT */
+.sidebar select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    outline: none;
+}
+
+/* EVENTS GRID */
+.events-container {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.event-card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.event-card:hover {
+    transform: translateY(-6px);
+}
+
+/* IMAGE */
+.event-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+/* BODY */
+.event-body {
+    padding: 14px;
+}
+
+/* TITLE */
+.event-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* META */
+.event-meta {
+    font-size: 13px;
+    color: #666;
+    margin: 6px 0;
+}
+
+/* TAG */
+.tag {
+    display: inline-block;
+    background: #d8f3dc;
+    color: #1b4332;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+}
+
+/* BUTTON */
+.enroll-btn {
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    background: #2d6a4f;
+    color: white;
+    transition: 0.3s;
+}
+
+.enroll-btn:hover {
+    background: #1b4332;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+    }
+}
+</style>
+
+<div class="main-container">
+
+    <!-- SIDEBAR FILTER -->
+    <div class="sidebar">
+        <h4>Filter Events</h4>
+
+        <label>Category</label>
+        <select id="categoryFilter" onchange="applyFilters()">
+            <option value="all">All</option>
+            <option value="education">Education</option>
+            <option value="environment">Environment</option>
+            <option value="animals">Animals</option>
+            <option value="charity">Charity</option>
+        </select>
+
+        <label>City</label>
+        <select id="cityFilter" onchange="applyFilters()">
+            <option value="all">All</option>
+            <option value="kolkata">Kolkata</option>
+            <option value="bangalore">Bangalore</option>
+            <option value="delhi">Delhi</option>
+            <option value="mumbai">Mumbai</option>
+        </select>
+    </div>
+
+    <!-- EVENTS -->
+    <div class="events-container">
+
+        <!-- EVENT 1 -->
+        <div class="event-card" data-category="education" data-city="kolkata">
+            <img class="event-img" src="https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=800&q=80">
+            <div class="event-body">
+                <div class="event-title">Teaching Underprivileged Children</div>
+                <div class="event-meta">📍 Kolkata • 5 July 2026</div>
+                <div class="tag">Education</div>
+                <button class="enroll-btn">Enroll Now</button>
+            </div>
+        </div>
+
+        <!-- EVENT 2 -->
+        <div class="event-card" data-category="environment" data-city="bangalore">
+            <img class="event-img" src="https://images.unsplash.com/photo-1492496913980-501348b61469?auto=format&fit=crop&w=800&q=80">
+            <div class="event-body">
+                <div class="event-title">Tree Plantation Drive</div>
+                <div class="event-meta">📍 Bangalore • 12 July 2026</div>
+                <div class="tag">Environment</div>
+                <button class="enroll-btn">Enroll Now</button>
+            </div>
+        </div>
+
+        <!-- EVENT 3 -->
+        <div class="event-card" data-category="animals" data-city="delhi">
+            <img class="event-img" src="https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?auto=format&fit=crop&w=800&q=80">
+            <div class="event-body">
+                <div class="event-title">Feeding Stray Animals</div>
+                <div class="event-meta">📍 Delhi • 18 July 2026</div>
+                <div class="tag">Animal Care</div>
+                <button class="enroll-btn">Enroll Now</button>
+            </div>
+        </div>
+
+        <!-- EVENT 4 -->
+        <div class="event-card" data-category="charity" data-city="mumbai">
+            <img class="event-img" src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=800&q=80">
+            <div class="event-body">
+                <div class="event-title">Donation Drive</div>
+                <div class="event-meta">📍 Mumbai • 25 July 2026</div>
+                <div class="tag">Charity</div>
+                <button class="enroll-btn">Enroll Now</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+function applyFilters() {
+    let category = document.getElementById("categoryFilter").value;
+    let city = document.getElementById("cityFilter").value;
+
+    let cards = document.querySelectorAll(".event-card");
+
+    cards.forEach(card => {
+        let matchCategory = (category === "all" || card.dataset.category === category);
+        let matchCity = (city === "all" || card.dataset.city === city);
+
+        card.style.display = (matchCategory && matchCity) ? "block" : "none";
+    });
+}
+</script>
+
+{% endblock %}
