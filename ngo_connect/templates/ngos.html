@@ -335,7 +335,7 @@ td{
         <h3>{{ ngo.name }}</h3>
 
         <p>
-            <strong>Contact:</strong>
+            <strong>Contact Person:</strong>
             {{ ngo.contact_person }}
         </p>
 
@@ -348,68 +348,23 @@ td{
             {{ ngo.description }}
         </p>
 
+        {% if ngo.achievements %}
+        <p>
+            <strong>Achievements:</strong>
+            {{ ngo.achievements }}
+        </p>
+        {% endif %}
+
     </div>
 
     {% empty %}
 
     <div class="card">
-        <h3>No NGOs Available</h3>
+        <h3>No Approved NGOs Yet</h3>
+        <p>Check back later.</p>
     </div>
 
     {% endfor %}
-
-</div>
-
-<button class="register-btn"
-onclick="openModal()">
-🤝 Register NGO
-</button>
-
-<div id="ngoModal" class="modal">
-
-    <div class="modal-content">
-
-        <h2>Register NGO</h2>
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-            <input
-                type="text"
-                name="ngo_name"
-                placeholder="NGO Name"
-                required
-            >
-
-            <input
-                type="text"
-                name="contact_person"
-                placeholder="Contact Person"
-                required
-            >
-
-            <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-            >
-
-            <textarea
-                name="description"
-                rows="5"
-                placeholder="Description"
-                required
-            ></textarea>
-
-            <button class="submit-btn">
-                Submit For Approval
-            </button>
-
-        </form>
-
-    </div>
 
 </div>
 
