@@ -1,17 +1,14 @@
 {% extends 'base.html' %}
-
 {% block content %}
 
 <style>
 
 :root{
     --green:#2d6a4f;
-    --dark:#1b4332;
-    --light:#f8fffb;
     --blue:#4ea8de;
 }
 
-/* ---------- ADMIN DASHBOARD ---------- */
+/* ================= ADMIN ================= */
 
 .admin-container{
     width:90%;
@@ -27,8 +24,8 @@
 
 .stat-card{
     background:white;
-    padding:25px;
-    border-radius:18px;
+    padding:20px;
+    border-radius:15px;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
@@ -37,14 +34,10 @@
     color:var(--green);
 }
 
-.stat-card p{
-    color:#666;
-}
-
 .table-container{
     background:white;
-    padding:25px;
-    border-radius:20px;
+    padding:20px;
+    border-radius:15px;
     box-shadow:0 8px 20px rgba(0,0,0,.08);
     overflow-x:auto;
 }
@@ -57,106 +50,90 @@ table{
 th{
     background:var(--green);
     color:white;
-    padding:15px;
+    padding:12px;
 }
 
 td{
-    padding:15px;
+    padding:12px;
     border-bottom:1px solid #eee;
 }
 
-.action-btn{
-    border:none;
-    padding:8px 14px;
-    border-radius:10px;
-    cursor:pointer;
-    color:white;
-    margin-right:5px;
-}
-
-.approve{
-    background:#2d6a4f;
-}
-
-.reject{
-    background:#d62828;
-}
-
-.delete{
-    background:#6c757d;
-}
-
-.status{
-    padding:6px 12px;
-    border-radius:999px;
-    font-size:13px;
-}
-
-.pending{
-    background:#fff3cd;
-}
-
-.approved{
-    background:#d1e7dd;
-}
-
-.rejected{
-    background:#f8d7da;
-}
-
-
-/* ---------- USER PAGE ---------- */
+/* ================= USER ================= */
 
 .hero{
-    height:55vh;
+    height:50vh;
     display:flex;
     justify-content:center;
     align-items:center;
     text-align:center;
     color:white;
-    background:linear-gradient(
-        rgba(0,0,0,.5),
-        rgba(0,0,0,.5)
-    ),
+    background:
+    linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
     url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac')
     center/cover;
 }
 
 .ngo-grid{
     width:90%;
-    margin:50px auto;
+    margin:40px auto;
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
     gap:25px;
 }
 
-.card{
+/* CARD */
+.ngo-card{
+    display:flex;
+    border-radius:18px;
+    overflow:hidden;
     background:white;
-    padding:25px;
-    border-radius:20px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
 
-.card h3{
+.ngo-content{
+    flex:1;
+    padding:20px;
+}
+
+.ngo-content h3{
+    margin:0;
     color:var(--green);
 }
 
-.register-btn{
-    position:fixed;
-    bottom:30px;
-    right:30px;
-    border:none;
-    border-radius:999px;
-    padding:15px 20px;
-    cursor:pointer;
-    color:white;
-    background:linear-gradient(
-        135deg,
-        var(--green),
-        var(--blue)
-    );
+.ngo-content p{
+    color:#555;
+    font-size:14px;
+    line-height:1.5;
 }
 
+.ngo-image{
+    width:40%;
+    background-size:cover;
+    background-position:center;
+    position:relative;
+}
+
+.ngo-image::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to left, rgba(255,255,255,0), white);
+}
+
+/* BUTTON */
+.register-btn{
+    position:fixed;
+    bottom:25px;
+    right:25px;
+    padding:15px 18px;
+    border:none;
+    border-radius:50px;
+    color:white;
+    background:linear-gradient(135deg,var(--green),var(--blue));
+    cursor:pointer;
+}
+
+/* MODAL */
 .modal{
     display:none;
     position:fixed;
@@ -172,27 +149,25 @@ td{
 
 .modal-content{
     background:white;
-    width:450px;
-    max-width:90%;
-    padding:25px;
-    border-radius:20px;
+    padding:20px;
+    width:400px;
+    border-radius:15px;
 }
 
 .modal input,
 .modal textarea{
     width:100%;
-    padding:12px;
-    margin-top:8px;
-    margin-bottom:15px;
+    padding:10px;
+    margin:8px 0;
     border:1px solid #ddd;
-    border-radius:10px;
+    border-radius:8px;
 }
 
 .submit-btn{
     width:100%;
+    padding:10px;
     border:none;
-    padding:12px;
-    border-radius:10px;
+    border-radius:8px;
     background:var(--green);
     color:white;
 }
@@ -202,7 +177,7 @@ td{
 
 {% if is_admin %}
 
-<!-- ================= ADMIN NGO MANAGEMENT ================= -->
+<!-- ================= ADMIN DASHBOARD ================= -->
 
 <div class="admin-container">
 
@@ -235,78 +210,36 @@ td{
     <div class="table-container">
 
         <table>
-
             <tr>
                 <th>Name</th>
-                <th>Contact Person</th>
+                <th>Contact</th>
                 <th>Email</th>
                 <th>Status</th>
-                <th>Actions</th>
+                <th>Action</th>
             </tr>
 
             {% for ngo in ngos %}
-
             <tr>
-
                 <td>{{ ngo.name }}</td>
-
                 <td>{{ ngo.contact_person }}</td>
-
                 <td>{{ ngo.contact_email }}</td>
-
+                <td>{{ ngo.status }}</td>
                 <td>
 
-                    <span class="status {{ ngo.status|lower }}">
-                        {{ ngo.status }}
-                    </span>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="ngo_id" value="{{ ngo.id }}">
+
+                        <select name="action" onchange="this.form.submit()">
+                            <option value="">Action</option>
+                            <option value="approve">Approve</option>
+                            <option value="reject">Reject</option>
+                            <option value="delete">Delete</option>
+                        </select>
+                    </form>
 
                 </td>
-
-                <td>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <input
-            type="hidden"
-            name="ngo_id"
-            value="{{ ngo.id }}"
-        >
-
-        <select
-            name="action"
-            onchange="this.form.submit()"
-            style="
-                padding:10px;
-                border-radius:10px;
-                border:1px solid #ddd;
-            "
-        >
-
-            <option value="">
-                Select Action
-            </option>
-
-            <option value="approve">
-                Approve
-            </option>
-
-            <option value="reject">
-                Reject
-            </option>
-
-            <option value="delete">
-                Delete
-            </option>
-
-        </select>
-
-    </form>
-
-</td>
-
             </tr>
-
             {% endfor %}
 
         </table>
@@ -315,110 +248,78 @@ td{
 
 </div>
 
+
 {% else %}
 
-<!-- ================= USER NGO PAGE ================= -->
+<!-- ================= USER PAGE ================= -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>NGO Card</title>
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  padding: 40px;
-}
-
-/* CARD */
-.ngo-card {
-  display: flex;
-  width: 100%;
-  max-width: 750px;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #ffffff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  margin: auto;
-}
-
-/* LEFT CONTENT */
-.ngo-content {
-  flex: 1;
-  padding: 25px;
-}
-
-.ngo-content h3 {
-  margin: 0 0 10px;
-  font-size: 22px;
-  color: #222;
-}
-
-.ngo-content p {
-  color: #555;
-  line-height: 1.5;
-}
-
-/* RIGHT IMAGE SECTION */
-.ngo-image {
-  width: 40%;
-  position: relative;
-  background: url("https://images.unsplash.com/photo-1521791136064-7986c2920216")
-    center/cover no-repeat;
-}
-
-/* GRADIENT BLEND OVERLAY */
-.ngo-image::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to left,
-    rgba(255,255,255,0) 30%,
-    rgba(255,255,255,1) 100%
-  );
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="ngo-card">
-  <div class="ngo-content">
-    <h3>Helping Hands NGO</h3>
-    <p>
-      We focus on education, healthcare, and food distribution for underprivileged communities.
-      Join us in making a difference.
-    </p>
-  </div>
-
-  <div class="ngo-image"></div>
+<div class="hero">
+    <div>
+        <h1>Supporting Change</h1>
+        <p>Discover NGOs making real impact</p>
+    </div>
 </div>
 
-</body>
-</html>
+<div class="ngo-grid">
+
+    {% for ngo in ngos %}
+    {% if ngo.status == "Approved" %}
+
+    <div class="ngo-card">
+
+        <div class="ngo-content">
+            <h3>{{ ngo.name }}</h3>
+            <p>{{ ngo.description }}</p>
+            <p style="font-size:12px;color:#777;">
+                {{ ngo.contact_person }} | {{ ngo.contact_email }}
+            </p>
+        </div>
+
+        <div class="ngo-image"
+             style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac');">
+        </div>
+
+    </div>
+
+    {% endif %}
+    {% endfor %}
+
+</div>
+
+<!-- REGISTER BUTTON -->
+<button class="register-btn" onclick="openModal()">
+    + Register NGO
+</button>
+
+<!-- MODAL -->
+<div class="modal" id="ngoModal">
+    <div class="modal-content">
+
+        <h2>Register NGO</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="name" placeholder="NGO Name">
+            <input type="text" name="contact_person" placeholder="Contact Person">
+            <input type="email" name="contact_email" placeholder="Email">
+            <textarea name="description" placeholder="Description"></textarea>
+            <button class="submit-btn">Submit</button>
+        </form>
+
+    </div>
+</div>
 
 <script>
-
 function openModal(){
-    document
-    .getElementById("ngoModal")
-    .classList.add("show");
+    document.getElementById("ngoModal").classList.add("show");
 }
 
-window.onclick=function(e){
-
-    let modal=document
-    .getElementById("ngoModal");
-
-    if(e.target===modal){
+window.onclick = function(e){
+    let modal = document.getElementById("ngoModal");
+    if(e.target === modal){
         modal.classList.remove("show");
     }
 }
-
 </script>
 
 {% endif %}
